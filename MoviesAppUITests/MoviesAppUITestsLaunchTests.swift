@@ -2,7 +2,7 @@
 //  MoviesAppUITestsLaunchTests.swift
 //  MoviesAppUITests
 //
-//  Created by Admin on 12/06/24.
+//  Created by Lesly Higuera on 12/06/24.
 //
 
 import XCTest

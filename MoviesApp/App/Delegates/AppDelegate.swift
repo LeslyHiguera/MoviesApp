@@ -2,18 +2,18 @@
 //  AppDelegate.swift
 //  MoviesApp
 //
-//  Created by Admin on 12/06/24.
+//  Created by Lesly Higuera on 12/06/24.
 //
 
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        initialSetup(application: application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
 
@@ -31,6 +31,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-
 }
 
+private extension AppDelegate {
+    
+    func initialSetup(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+        setInitialController()
+    }
+
+    func setInitialController() {
+        guard #available(iOS 13, *) else {
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.makeKeyAndVisible()
+            let navigationController = UINavigationController(rootViewController: MainFactory.configure())
+            window?.rootViewController = navigationController
+            return
+        }
+    }
+
+}
