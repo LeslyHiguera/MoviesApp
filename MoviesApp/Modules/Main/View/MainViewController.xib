@@ -15,6 +15,7 @@
                 <outlet property="loadingView" destination="GFT-7g-nlq" id="VTf-s5-5iF"/>
                 <outlet property="pickerView" destination="nvJ-X4-ivl" id="hWL-G0-VcU"/>
                 <outlet property="pickerViewContainer" destination="GMu-uU-uKw" id="rtL-de-Vs4"/>
+                <outlet property="searchTextField" destination="f2H-W8-yQg" id="zjL-b6-4r7"/>
                 <outlet property="segmentedControl" destination="QKp-FV-5Sk" id="OET-g5-0DD"/>
                 <outlet property="tableView" destination="ZHm-uS-WLb" id="r4U-M4-wRX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

@@ -11,6 +11,8 @@ enum MainViewModelOutput {
     case isLoading(Bool)
     case didGetData
     case errorMessage(String)
+    case emptySearch(Bool)
+    case emptySearchResults(Bool)
 }
 
 class MainViewModel {
@@ -18,6 +20,7 @@ class MainViewModel {
     var page = 1
     var isFiltering = false
     var movies: [MovieResponse] = []
+    var moviesSearch: [MovieResponse] = []
     
     private var manager: MainManager
     
@@ -51,6 +54,35 @@ class MainViewModel {
     
     func getTopRatedMovies() {
         
-        
+    }
+    
+    func textFieldDidChangeSelection(text: String?) {
+        guard let text = text else { return }
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [self] _ in
+            
+            if text.isEmpty {
+                mutableOutputEvents.postValue(.emptySearch(true))
+                return
+            }
+            
+            for movie in movies {
+                if let title = movie.title {
+                    if title.lowercased().contains(text.lowercased()) {
+                        moviesSearch.append(movie)
+                    }
+                }
+            }
+            
+            if moviesSearch.count > 0 {
+                isFiltering = true
+                movies = []
+                movies = moviesSearch
+                moviesSearch = []
+                mutableOutputEvents.postValue(.didGetData)
+            } else {
+                mutableOutputEvents.postValue(.emptySearchResults(true))
+            }
+            
+        }
     }
 }

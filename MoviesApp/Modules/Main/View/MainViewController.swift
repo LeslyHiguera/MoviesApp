@@ -11,6 +11,8 @@ class MainViewController: UIViewController {
     
     // MARK: - Outlets
     
+    
+    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var pickerView: UIPickerView!
@@ -50,6 +52,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupBindings()
+        viewModel.page = 1
         viewModel.getPopularMovies()
         viewModel.getTopRatedMovies()
     }
@@ -58,6 +61,7 @@ class MainViewController: UIViewController {
     
     private func setupUI() {
         title = "Popular"
+        searchTextField.delegate = self
         setSegmentedControlAppearence()
         configureTableView()
         configurePickerView()
@@ -117,6 +121,14 @@ class MainViewController: UIViewController {
         case .errorMessage(let error):
             print(error)
             //showAlert(title: "Error", message: "Has been ocurred fetching anime list.")
+        case .emptySearch(let emptySearch):
+            if emptySearch {
+                viewModel.isFiltering = false
+                clearAndReloadMovies()
+            }
+        case .emptySearchResults(_):
+            print("Alert")
+            // show alert
         }
     }
     
@@ -141,6 +153,7 @@ class MainViewController: UIViewController {
     
     private func clearAndReloadMovies() {
         viewModel.movies = []
+        viewModel.page = 1
         viewModel.getPopularMovies()
     }
     
@@ -241,6 +254,13 @@ extension MainViewController: UIPickerViewDataSource {
         default:
             return 0
         }
+    }
+    
+}
+
+extension MainViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        viewModel.textFieldDidChangeSelection(text: textField.text)
     }
     
 }
