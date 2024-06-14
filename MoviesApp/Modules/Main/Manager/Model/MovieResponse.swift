@@ -11,7 +11,7 @@ struct MovieResponse: Codable {
     let id: Int?
     let title: String?
     let adult: Bool?
-    let originalLengauge: String?
+    let original_language: String?
     let vote_average: Double?
     
 }

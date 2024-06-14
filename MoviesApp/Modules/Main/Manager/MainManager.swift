@@ -28,7 +28,7 @@ struct APIRouter {
     }
     
     var topRatedUrl: String {
-        return path + "/3/movie/popular?page=1&api_key=\(Constants().apiKey)"
+        return path + ""
     }
     
 }
@@ -45,5 +45,9 @@ class MainManager {
                 completionHandler(.failure(error))
             }
         }
+    }
+    
+    func getTopRatedMovies() {
+        
     }
 }

@@ -17,12 +17,17 @@ class MainViewController: UIViewController {
     @IBOutlet weak var pickerViewContainer: UIView!
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    @IBOutlet weak var clearFiltersButton: UIButton!
     
     // MARK: - Properties
     
-    private var pickerOptions = ["Adult", "Original lenguage", "Vote average"]
+    private let adultPickerOptions = ["Yes", "No"]
+    private let lenguagePickerOptions = ["en", "es", "fr", "it", "pt", "ko", "ja", "zh", "th", "hi"]
+    private let voteAveragePickerOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     
-    private var selectedRow = 0
+    private var adultSelectedRow = 0
+    private var lenguageSelectedRow = 0
+    private var voteAverageSelectedRow = 0
     
     var viewModel: MainViewModel
     
@@ -46,6 +51,7 @@ class MainViewController: UIViewController {
         setupUI()
         setupBindings()
         viewModel.getPopularMovies()
+        viewModel.getTopRatedMovies()
     }
     
     // MARK: - Methods
@@ -55,6 +61,7 @@ class MainViewController: UIViewController {
         setSegmentedControlAppearence()
         configureTableView()
         configurePickerView()
+        setClearFiltersButton()
     }
     
     private func setSegmentedControlAppearence() {
@@ -74,6 +81,12 @@ class MainViewController: UIViewController {
         pickerView.dataSource = self
     }
     
+    private func setClearFiltersButton() {
+        clearFiltersButton.layer.cornerRadius = 6
+        clearFiltersButton.layer.borderWidth = 1
+        clearFiltersButton.layer.borderColor = UIColor(named: "4D0A05")?.cgColor
+    }
+    
     private func hidePickerComponents(isHidden: Bool) {
         pickerViewContainer.isHidden = isHidden
         backgroundView.isHidden = isHidden
@@ -83,7 +96,7 @@ class MainViewController: UIViewController {
         viewModel.outputEvents.observe { [weak self] event in
             self?.validateEvents(event: event)
         }
-        adapter.didSelectRowAt.observe { [unowned self] anime in
+        adapter.didSelectRowAt.observe { [unowned self] movie in
             // TODO: Acción cuando se da tap a una celda
         }
     }
@@ -107,18 +120,15 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func filtersMovies(selectedRow: Int) {
-        switch selectedRow {
-        case 0:
-            viewModel.movies = viewModel.movies.filter({ $0.adult == true})
-            tableView.reloadData()
-        case 1:
-            print("One")
-        case 2:
-            print("Two")
-        default:
-            break
-        }
+    private func filtersMovies(adultSelectedRow: Int, lenguageSelectedRow: Int, voteAverageSelectedRow: Int) {
+        let isForAdults = adultSelectedRow == 0 ? true : false
+        let lenguaje = lenguagePickerOptions[lenguageSelectedRow]
+        let voteAverage = Int(voteAveragePickerOptions[voteAverageSelectedRow])
+        
+        let filteredMovies = viewModel.movies.filter({ $0.adult == isForAdults && $0.original_language == lenguaje && Int($0.vote_average ?? 0.0) == voteAverage })
+        viewModel.isFiltering = true
+        viewModel.movies = filteredMovies
+        tableView.reloadData()
     }
     
     // MARK: - Actions
@@ -137,7 +147,8 @@ class MainViewController: UIViewController {
             viewModel.getPopularMovies()
         case 1:
             title = "Top Rated"
-            viewModel.movies = []
+            //viewModel.movies = []
+            viewModel.getTopRatedMovies()
             tableView.reloadData()
         default:
             break
@@ -150,18 +161,39 @@ class MainViewController: UIViewController {
     
     @IBAction func doneButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: true)
-        filtersMovies(selectedRow: selectedRow)
+        filtersMovies(adultSelectedRow: adultSelectedRow, lenguageSelectedRow: lenguageSelectedRow, voteAverageSelectedRow: voteAverageSelectedRow)
+        pickerView.selectRow(0, inComponent: 0, animated: true)
+        pickerView.selectRow(0, inComponent: 1, animated: true)
+        pickerView.selectRow(0, inComponent: 2, animated: true)
     }
     
 }
 
 extension MainViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        pickerOptions[row]
+        switch component {
+        case 0:
+            return adultPickerOptions[row]
+        case 1:
+            return lenguagePickerOptions[row]
+        case 2:
+            return voteAveragePickerOptions[row]
+        default:
+            return ""
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedRow = row
+        switch component {
+        case 0:
+            adultSelectedRow = row
+        case 1:
+            lenguageSelectedRow = row
+        case 2:
+            voteAverageSelectedRow = row
+        default:
+             break
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -172,11 +204,20 @@ extension MainViewController: UIPickerViewDelegate {
 
 extension MainViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
+        3
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        pickerOptions.count
+        switch component {
+        case 0:
+            return adultPickerOptions.count
+        case 1:
+            return lenguagePickerOptions.count
+        case 2:
+            return voteAveragePickerOptions.count
+        default:
+            return 0
+        }
     }
     
 }

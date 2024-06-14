@@ -16,7 +16,7 @@ enum MainViewModelOutput {
 class MainViewModel {
     
     var page = 1
-    
+    var isFiltering = false
     var movies: [MovieResponse] = []
     
     private var manager: MainManager
@@ -47,5 +47,10 @@ class MainViewModel {
                 self?.mutableOutputEvents.postValue(.errorMessage(error.localizedDescription))
             }
         }
+    }
+    
+    func getTopRatedMovies() {
+        
+        
     }
 }
