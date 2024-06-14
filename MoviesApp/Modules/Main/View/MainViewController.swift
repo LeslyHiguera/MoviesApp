@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let adultPickerOptions = ["Yes", "No"]
+    private let adultPickerOptions = ["No", "Yes"]
     private let lenguagePickerOptions = ["en", "es", "fr", "it", "pt", "ko", "ja", "zh", "th", "hi"]
     private let voteAveragePickerOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     
@@ -120,21 +120,35 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func filtersMovies(adultSelectedRow: Int, lenguageSelectedRow: Int, voteAverageSelectedRow: Int) {
-        let isForAdults = adultSelectedRow == 0 ? true : false
+    private func filterMovies(adultSelectedRow: Int, lenguageSelectedRow: Int, voteAverageSelectedRow: Int) {
+        let isForAdults = adultSelectedRow == 0 ? false : true
         let lenguaje = lenguagePickerOptions[lenguageSelectedRow]
         let voteAverage = Int(voteAveragePickerOptions[voteAverageSelectedRow])
         
         let filteredMovies = viewModel.movies.filter({ $0.adult == isForAdults && $0.original_language == lenguaje && Int($0.vote_average ?? 0.0) == voteAverage })
         viewModel.isFiltering = true
-        viewModel.movies = filteredMovies
-        tableView.reloadData()
+        
+        if filteredMovies.count > 0 {
+            viewModel.movies = filteredMovies
+            tableView.reloadData()
+        } else {
+            viewModel.isFiltering = false
+            clearFiltersButton.isHidden = true
+            showAlert(title: "Warning", message: "We did not find results for your search, try again")
+            clearAndReloadMovies()
+        }
+    }
+    
+    private func clearAndReloadMovies() {
+        viewModel.movies = []
+        viewModel.getPopularMovies()
     }
     
     // MARK: - Actions
     
     @IBAction func filtersButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: false)
+        clearFiltersButton.isHidden = true
     }
 
     
@@ -144,10 +158,10 @@ class MainViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             title = "Popular"
-            viewModel.getPopularMovies()
+            clearAndReloadMovies()
         case 1:
             title = "Top Rated"
-            //viewModel.movies = []
+            viewModel.movies = []
             viewModel.getTopRatedMovies()
             tableView.reloadData()
         default:
@@ -155,16 +169,25 @@ class MainViewController: UIViewController {
         }
     }
     
-    @IBAction func cancelButtonAction(_ sender: Any) {
+    @IBAction private func cancelButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: true)
+        
+        clearFiltersButton.isHidden = viewModel.isFiltering ? false : true
     }
     
-    @IBAction func doneButtonAction(_ sender: Any) {
+    @IBAction private func doneButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: true)
-        filtersMovies(adultSelectedRow: adultSelectedRow, lenguageSelectedRow: lenguageSelectedRow, voteAverageSelectedRow: voteAverageSelectedRow)
+        clearFiltersButton.isHidden = false
+        filterMovies(adultSelectedRow: adultSelectedRow, lenguageSelectedRow: lenguageSelectedRow, voteAverageSelectedRow: voteAverageSelectedRow)
+    }
+    
+    @IBAction private func clearFiltersButtonAction(_ sender: Any) {
+        viewModel.isFiltering = false
+        clearFiltersButton.isHidden = true
         pickerView.selectRow(0, inComponent: 0, animated: true)
         pickerView.selectRow(0, inComponent: 1, animated: true)
         pickerView.selectRow(0, inComponent: 2, animated: true)
+        clearAndReloadMovies()
     }
     
 }
