@@ -28,16 +28,16 @@ struct APIRouter {
     }
     
     var topRatedUrl: String {
-        return path + ""
+        return path + "/3/movie/top_rated?page=\(page)&api_key=\(Constants().apiKey)"
     }
     
 }
 
 class MainManager {
     
-    func getPopularMovies(page: Int, completionHandler: @escaping ((Result<PopularMovieResponse, Error>) -> Void)) {
-        guard let url = URL(string: APIRouter(page: page).popularMoviesUrl) else { return }
-        URLSession.shared.request(url: url, expecting: PopularMovieResponse.self) { result in
+    func getMovies(page: Int, category: MoviesCategory, completionHandler: @escaping ((Result<MoviesResponse, Error>) -> Void)) {
+        guard let url = URL(string: category == .popular ? APIRouter(page: page).popularMoviesUrl : APIRouter(page: page).topRatedUrl) else { return }
+        URLSession.shared.request(url: url, expecting: MoviesResponse.self) { result in
             switch result {
             case .success(let data):
                 completionHandler(.success(data))

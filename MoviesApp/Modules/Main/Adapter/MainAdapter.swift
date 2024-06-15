@@ -37,9 +37,13 @@ extension MainAdapter: UITableViewDelegate {
 
             if maximumOffset - currentOffset <= 10.0 {
                 viewModel.page += 1
-                viewModel.getPopularMovies()
+                viewModel.getMovies()
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        130
     }
 }
 
@@ -50,7 +54,9 @@ extension MainAdapter: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "movieTableViewCell", for: indexPath) as? MovieTableViewCell {
-            cell.movie = viewModel.movies[indexPath.row]
+            if viewModel.movies.count > 0 {
+                cell.movie = viewModel.movies[indexPath.row]
+            }
             return cell
         } else {
             return UITableViewCell()

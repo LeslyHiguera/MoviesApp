@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,29 +25,64 @@
                             <constraint firstAttribute="width" constant="80" id="xgZ-T3-Gel"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYl-zN-VOk">
-                        <rect key="frame" x="90" y="5" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYl-zN-VOk">
+                        <rect key="frame" x="100" y="5" width="214" height="20.333333333333332"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" red="0.30196079609999998" green="0.039215687659999998" blue="0.019607843829999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2yk-KG-mBZ">
+                        <rect key="frame" x="100" y="30.333333333333329" width="37.333333333333343" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.30196079609999998" green="0.039215687659999998" blue="0.019607843829999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sY2-mN-c6T">
+                        <rect key="frame" x="100" y="53.333333333333336" width="35.333333333333343" height="17.000000000000007"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" systemColor="systemGrayColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tiV-bx-lMS">
+                        <rect key="frame" x="269.33333333333331" y="65.666666666666671" width="39.666666666666686" height="19.333333333333329"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" systemColor="systemOrangeColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="DYl-zN-VOk" firstAttribute="leading" secondItem="8a0-kL-03f" secondAttribute="trailing" constant="5" id="MPB-Wb-R9z"/>
+                    <constraint firstItem="DYl-zN-VOk" firstAttribute="leading" secondItem="8a0-kL-03f" secondAttribute="trailing" constant="15" id="MPB-Wb-R9z"/>
+                    <constraint firstItem="sY2-mN-c6T" firstAttribute="leading" secondItem="8a0-kL-03f" secondAttribute="trailing" constant="15" id="Rmy-61-VHU"/>
                     <constraint firstAttribute="bottom" secondItem="8a0-kL-03f" secondAttribute="bottom" constant="5" id="S58-ma-Sbj"/>
+                    <constraint firstItem="2yk-KG-mBZ" firstAttribute="top" secondItem="DYl-zN-VOk" secondAttribute="bottom" constant="5" id="cLQ-8w-ZPc"/>
                     <constraint firstItem="8a0-kL-03f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="dhS-IW-kwf"/>
+                    <constraint firstItem="2yk-KG-mBZ" firstAttribute="leading" secondItem="8a0-kL-03f" secondAttribute="trailing" constant="15" id="gJT-M2-Ayr"/>
+                    <constraint firstAttribute="trailing" secondItem="DYl-zN-VOk" secondAttribute="trailing" constant="5" id="gTP-rS-bJo"/>
+                    <constraint firstAttribute="trailing" secondItem="tiV-bx-lMS" secondAttribute="trailing" constant="10" id="htp-yQ-sua"/>
+                    <constraint firstItem="sY2-mN-c6T" firstAttribute="top" secondItem="2yk-KG-mBZ" secondAttribute="bottom" constant="5" id="jhM-ab-8xT"/>
                     <constraint firstItem="DYl-zN-VOk" firstAttribute="top" secondItem="8a0-kL-03f" secondAttribute="top" id="p8u-Sk-hkO"/>
                     <constraint firstItem="8a0-kL-03f" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="qZ9-az-A5M"/>
+                    <constraint firstItem="tiV-bx-lMS" firstAttribute="bottom" secondItem="8a0-kL-03f" secondAttribute="bottom" id="ssg-FN-wki"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="title" destination="DYl-zN-VOk" id="GJ0-2T-vMN"/>
+                <outlet property="languageLabel" destination="sY2-mN-c6T" id="5Vj-hj-9b9"/>
+                <outlet property="movieImage" destination="8a0-kL-03f" id="9I7-rA-Oc7"/>
+                <outlet property="releaseDateLabel" destination="2yk-KG-mBZ" id="nb1-ro-CJK"/>
+                <outlet property="titleLabel" destination="DYl-zN-VOk" id="GJ0-2T-vMN"/>
+                <outlet property="voteAverageLabel" destination="tiV-bx-lMS" id="gzJ-hl-qLq"/>
             </connections>
             <point key="canvasLocation" x="129.00763358778624" y="6.6901408450704229"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="movieclapper.fill" catalog="system" width="128" height="113"/>
+        <systemColor name="systemGrayColor">
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

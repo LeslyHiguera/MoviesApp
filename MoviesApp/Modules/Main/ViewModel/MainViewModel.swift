@@ -15,9 +15,15 @@ enum MainViewModelOutput {
     case emptySearchResults(Bool)
 }
 
+enum MoviesCategory {
+    case popular
+    case topRated
+}
+
 class MainViewModel {
     
     var page = 1
+    var category: MoviesCategory = .popular
     var isFiltering = false
     var movies: [MovieResponse] = []
     var moviesSearch: [MovieResponse] = []
@@ -34,9 +40,9 @@ class MainViewModel {
         self.manager = manager
     }
     
-    func getPopularMovies() {
+    func getMovies() {
         mutableOutputEvents.postValue(.isLoading(true))
-        manager.getPopularMovies(page: page) { [weak self] result in
+        manager.getMovies(page: page, category: category) { [weak self] result in
             self?.mutableOutputEvents.postValue(.isLoading(false))
             switch result {
             case .success(let movies):
@@ -50,10 +56,6 @@ class MainViewModel {
                 self?.mutableOutputEvents.postValue(.errorMessage(error.localizedDescription))
             }
         }
-    }
-    
-    func getTopRatedMovies() {
-        
     }
     
     func textFieldDidChangeSelection(text: String?) {

@@ -11,15 +11,14 @@ class MainViewController: UIViewController {
     
     // MARK: - Outlets
     
-    
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var pickerView: UIPickerView!
-    @IBOutlet weak var pickerViewContainer: UIView!
+    @IBOutlet private weak var searchTextField: UITextField!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var backgroundView: UIView!
+    @IBOutlet private weak var pickerView: UIPickerView!
+    @IBOutlet private weak var pickerViewContainer: UIView!
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
-    @IBOutlet weak var loadingView: UIActivityIndicatorView!
-    @IBOutlet weak var clearFiltersButton: UIButton!
+    @IBOutlet private weak var loadingView: UIActivityIndicatorView!
+    @IBOutlet private weak var clearFiltersButton: UIButton!
     
     // MARK: - Properties
     
@@ -53,8 +52,7 @@ class MainViewController: UIViewController {
         setupUI()
         setupBindings()
         viewModel.page = 1
-        viewModel.getPopularMovies()
-        viewModel.getTopRatedMovies()
+        viewModel.getMovies()
     }
     
     // MARK: - Methods
@@ -117,7 +115,7 @@ class MainViewController: UIViewController {
             }
         case .didGetData:
             tableView.reloadData()
-            //segmentedControl.isEnabled = true
+            segmentedControl.isEnabled = true
         case .errorMessage(let error):
             print(error)
             //showAlert(title: "Error", message: "Has been ocurred fetching anime list.")
@@ -133,12 +131,12 @@ class MainViewController: UIViewController {
     }
     
     private func filterMovies(adultSelectedRow: Int, lenguageSelectedRow: Int, voteAverageSelectedRow: Int) {
+        viewModel.isFiltering = true
         let isForAdults = adultSelectedRow == 0 ? false : true
         let lenguaje = lenguagePickerOptions[lenguageSelectedRow]
         let voteAverage = Int(voteAveragePickerOptions[voteAverageSelectedRow])
         
-        let filteredMovies = viewModel.movies.filter({ $0.adult == isForAdults && $0.original_language == lenguaje && Int($0.vote_average ?? 0.0) == voteAverage })
-        viewModel.isFiltering = true
+        let filteredMovies = viewModel.movies.filter({ $0.adult == isForAdults && $0.originalLanguage == lenguaje && Int($0.voteAverage ?? 0.0) == voteAverage })
         
         if filteredMovies.count > 0 {
             viewModel.movies = filteredMovies
@@ -154,29 +152,29 @@ class MainViewController: UIViewController {
     private func clearAndReloadMovies() {
         viewModel.movies = []
         viewModel.page = 1
-        viewModel.getPopularMovies()
+        viewModel.getMovies()
     }
     
     // MARK: - Actions
     
-    @IBAction func filtersButtonAction(_ sender: Any) {
+    @IBAction private func filtersButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: false)
         clearFiltersButton.isHidden = true
     }
 
     
     @IBAction private func segmentedControlAction(_ sender: Any) {
-        //segmentedControl.isEnabled = false
+        segmentedControl.isEnabled = false
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             title = "Popular"
+            viewModel.category = .popular
             clearAndReloadMovies()
         case 1:
             title = "Top Rated"
-            viewModel.movies = []
-            viewModel.getTopRatedMovies()
-            tableView.reloadData()
+            viewModel.category = .topRated
+            clearAndReloadMovies()
         default:
             break
         }
@@ -191,7 +189,12 @@ class MainViewController: UIViewController {
     @IBAction private func doneButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: true)
         clearFiltersButton.isHidden = false
-        filterMovies(adultSelectedRow: adultSelectedRow, lenguageSelectedRow: lenguageSelectedRow, voteAverageSelectedRow: voteAverageSelectedRow)
+        if viewModel.isFiltering {
+            clearAndReloadMovies()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + (viewModel.isFiltering ? 1.5 : 0), execute: {
+            self.filterMovies(adultSelectedRow: self.adultSelectedRow, lenguageSelectedRow: self.lenguageSelectedRow, voteAverageSelectedRow: self.voteAverageSelectedRow)
+        })
     }
     
     @IBAction private func clearFiltersButtonAction(_ sender: Any) {
