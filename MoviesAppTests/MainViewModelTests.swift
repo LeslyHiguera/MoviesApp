@@ -66,7 +66,7 @@ final class MainViewModelTests: XCTestCase {
     func testSearchMoviesSuccess() {
         let expectation = self.expectation(description: "Movies fetched successfully")
         
-        viewModel.searcMovies(query: "title")
+        viewModel.getMovies(isSearching: true, query: "title")
         
         viewModel.outputEvents.observe { event in
             switch event {
@@ -86,7 +86,7 @@ final class MainViewModelTests: XCTestCase {
         
         let expectation = self.expectation(description: "Failed to fetch movies")
         
-        viewModel.searcMovies(query: "Nonexistent")
+        viewModel.getMovies(isSearching: true, query: "Nonexistent")
         
         viewModel.outputEvents.observe { event in
             switch event {
@@ -138,7 +138,7 @@ final class MainViewModelTests: XCTestCase {
             }
         }
         
-        waitForExpectations(timeout: 1.5, handler: nil)
+        waitForExpectations(timeout: 2.0, handler: nil)
     }
         
     func testTextFieldDidChangeSelectionNoResults() {
@@ -158,7 +158,7 @@ final class MainViewModelTests: XCTestCase {
             }
         }
             
-        waitForExpectations(timeout: 2.0, handler: nil)
+        waitForExpectations(timeout: 1.5, handler: nil)
     }
 
 }

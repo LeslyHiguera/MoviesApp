@@ -176,6 +176,7 @@ class MainViewController: UIViewController {
     
     @IBAction private func segmentedControlAction(_ sender: Any) {
         segmentedControl.isEnabled = false
+        clearFiltersButton.isHidden = true
         searchTextField.text = ""
         
         switch segmentedControl.selectedSegmentIndex {
@@ -201,9 +202,17 @@ class MainViewController: UIViewController {
     @IBAction private func doneButtonAction(_ sender: Any) {
         hidePickerComponents(isHidden: true)
         clearFiltersButton.isHidden = false
+        
+        viewModel.isSearching = searchTextField.text != "" ? true : false
+        
         if viewModel.isFiltering {
-            clearAndReloadMovies()
+            if !viewModel.isSearching {
+                clearAndReloadMovies()
+            } else {
+                viewModel.getMovies(isSearching: true, query: searchTextField.text ?? "")
+            }
         }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + (viewModel.isFiltering ? 1.5 : 0), execute: {
             self.filterMovies(adultSelectedRow: self.adultSelectedRow, lenguageSelectedRow: self.lenguageSelectedRow, voteAverageSelectedRow: self.voteAverageSelectedRow)
         })
@@ -276,6 +285,7 @@ extension MainViewController: UIPickerViewDataSource {
 
 extension MainViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
+        clearFiltersButton.isHidden = true
         viewModel.textFieldDidChangeSelection(text: textField.text)
     }
     

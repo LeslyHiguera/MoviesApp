@@ -25,6 +25,7 @@ class MainViewModel {
     var page = 1
     var category: MoviesCategory = .popular
     var isFiltering = false
+    var isSearching = false
     var movies: [MovieResponse] = []
     var moviesSearch: [MovieResponse] = []
     
@@ -40,28 +41,14 @@ class MainViewModel {
         self.manager = manager
     }
     
-    func getMovies() {
-        mutableOutputEvents.postValue(.isLoading(true))
-        manager.getMovies(page: page, category: category) { [weak self] result in
-            self?.mutableOutputEvents.postValue(.isLoading(false))
-            switch result {
-            case .success(let movies):
-                movies.results?.forEach { (movie) in
-                    if self?.movies.contains(where: {$0.id != movie.id}) != nil {
-                        self?.movies.append(movie)
-                    }
-                }
-                self?.mutableOutputEvents.postValue(.didGetData)
-            case .failure(let error):
-                self?.mutableOutputEvents.postValue(.errorMessage(error.localizedDescription))
-            }
+    func getMovies(isSearching: Bool = false, query: String = "") {
+        if isSearching {
+            self.isSearching = true
+            movies = []
+            page = 1
         }
-    }
-    
-    func searcMovies(query: String) {
-        movies = []
         mutableOutputEvents.postValue(.isLoading(true))
-        manager.searchMovies(query: query, page: page) { [weak self] result in
+        manager.getMovies(url: getURL(isSearching: isSearching, category: category, page: page, query: query), page: page, isSearching: isSearching, query: query) { [weak self] result in
             self?.mutableOutputEvents.postValue(.isLoading(false))
             switch result {
             case .success(let movies):
@@ -79,7 +66,7 @@ class MainViewModel {
     
     func textFieldDidChangeSelection(text: String?) {
         guard let text = text else { return }
-        searcMovies(query: text)
+        getMovies(isSearching: true, query: text)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [self] _ in
             
             if text.isEmpty {
@@ -96,7 +83,7 @@ class MainViewModel {
             }
             
             if moviesSearch.count > 0 {
-                isFiltering = false
+                isFiltering = true
                 movies = []
                 movies = moviesSearch
                 moviesSearch = []
@@ -104,6 +91,14 @@ class MainViewModel {
             } else {
                 mutableOutputEvents.postValue(.emptySearchResults(true))
             }
+        }
+    }
+    
+    private func getURL(isSearching: Bool, category: MoviesCategory, page: Int, query: String) -> String {
+        if isSearching {
+            return APIRouter(page: page, query: query).searchUrl
+        } else {
+            return category == .popular ? APIRouter(page: page).popularUrl : APIRouter(page: page).topRatedUrl
         }
     }
  
