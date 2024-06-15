@@ -58,12 +58,23 @@ class MainViewController: UIViewController {
     // MARK: - Methods
     
     private func setupUI() {
-        title = "Popular"
+        setupNavigationBar()
         searchTextField.delegate = self
         setSegmentedControlAppearence()
         configureTableView()
         configurePickerView()
         setClearFiltersButton()
+    }
+    
+    private func setupNavigationBar() {
+        title = "Popular"
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .redWineColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func setSegmentedControlAppearence() {
@@ -86,7 +97,7 @@ class MainViewController: UIViewController {
     private func setClearFiltersButton() {
         clearFiltersButton.layer.cornerRadius = 6
         clearFiltersButton.layer.borderWidth = 1
-        clearFiltersButton.layer.borderColor = UIColor(named: "4D0A05")?.cgColor
+        clearFiltersButton.layer.borderColor = UIColor.redWineColor.cgColor
     }
     
     private func hidePickerComponents(isHidden: Bool) {

@@ -46,8 +46,5 @@ class MainManager {
             }
         }
     }
-    
-    func getTopRatedMovies() {
-        
-    }
+
 }
