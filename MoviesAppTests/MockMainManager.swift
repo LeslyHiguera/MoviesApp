@@ -15,7 +15,7 @@ class MockMainManager: MainManager {
         if shouldReturnError {
             completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Error fetching movies"])))
         } else {
-            let response = MoviesResponse(results: [MovieResponse(id: 0, title: "title", originalTitle: "originalTitle", adult: false, originalLanguage: "originalLanguage", voteAverage: 5.0, overview: "overview", imageUrl: "imageUrl", releaseDate: "releaseDate")])
+            let response = MoviesResponse(results: [MovieResponse(id: 0, genreIds: [1], title: "title", originalTitle: "originalTitle", adult: false, originalLanguage: "originalLanguage", voteAverage: 5.0, overview: "overview", imageUrl: "imageUrl", releaseDate: "releaseDate")])
             completion(.success(response))
         }
     }
