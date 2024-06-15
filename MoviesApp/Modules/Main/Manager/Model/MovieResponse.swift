@@ -9,6 +9,7 @@ import Foundation
 
 struct MovieResponse: Codable {
     let id: Int?
+    let genreIds: [Int]?
     let title: String?
     let originalTitle: String?
     let adult: Bool?
@@ -20,6 +21,7 @@ struct MovieResponse: Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
+        case genreIds = "genre_ids"
         case title
         case originalTitle = "original_title"
         case adult

@@ -10,7 +10,7 @@ import XCTest
 
 final class MainViewModelTests: XCTestCase {
     
-    let moviesResponse = [MovieResponse(id: 0, title: "title", originalTitle: "originalTitle", adult: false, originalLanguage: "originalLanguage", voteAverage: 5.0, overview: "overview", imageUrl: "imageUrl", releaseDate: "releaseDate")]
+    let moviesResponse = [MovieResponse(id: 0, genreIds: [1], title: "title", originalTitle: "originalTitle", adult: false, originalLanguage: "originalLanguage", voteAverage: 5.0, overview: "overview", imageUrl: "imageUrl", releaseDate: "releaseDate")]
     
     var viewModel: MainViewModel!
     var mockManager: MockMainManager!
@@ -63,6 +63,44 @@ final class MainViewModelTests: XCTestCase {
         waitForExpectations(timeout: 2.0, handler: nil)
     }
     
+    func testSearchMoviesSuccess() {
+        let expectation = self.expectation(description: "Movies fetched successfully")
+        
+        viewModel.searcMovies(query: "title")
+        
+        viewModel.outputEvents.observe { event in
+            switch event {
+            case .didGetData:
+                XCTAssertEqual(self.viewModel.movies.count, 1)
+                expectation.fulfill()
+            default:
+                break
+            }
+        }
+            
+        waitForExpectations(timeout: 2.0, handler: nil)
+    }
+    
+    func testSearchMoviesFailure() {
+        mockManager.shouldReturnError = true
+        
+        let expectation = self.expectation(description: "Failed to fetch movies")
+        
+        viewModel.searcMovies(query: "Nonexistent")
+        
+        viewModel.outputEvents.observe { event in
+            switch event {
+            case .errorMessage(let error):
+                XCTAssertEqual(error, "Error fetching movies")
+                expectation.fulfill()
+            default:
+                break
+            }
+        }
+            
+        waitForExpectations(timeout: 2.0, handler: nil)
+    }
+    
     func testTextFieldDidChangeSelectionEmptyText() {
         let expectation = self.expectation(description: "Empty text handling")
         
@@ -91,7 +129,7 @@ final class MainViewModelTests: XCTestCase {
         viewModel.outputEvents.observe { event in
             switch event {
             case .didGetData:
-                XCTAssertTrue(self.viewModel.isFiltering)
+                XCTAssertFalse(self.viewModel.isFiltering)
                 XCTAssertEqual(self.viewModel.movies.count, 1)
                 XCTAssertEqual(self.viewModel.movies.first?.title, "title")
                 expectation.fulfill()

@@ -23,7 +23,13 @@ struct APIRouter {
         }
     }
     
-    var popularMoviesUrl: String {
+    var query: String = "" {
+        didSet(newValue) {
+            query = newValue
+        }
+    }
+    
+    var popularUrl: String {
         return path + "/3/movie/popular?page=\(page)&api_key=\(Constants().apiKey)"
     }
     
@@ -31,12 +37,28 @@ struct APIRouter {
         return path + "/3/movie/top_rated?page=\(page)&api_key=\(Constants().apiKey)"
     }
     
+    var searchUrl: String {
+        return path + "/3/search/movie?page=\(page)&api_key=\(Constants().apiKey)&query=\(query)"
+    }
+    
 }
 
 class MainManager {
     
     func getMovies(page: Int, category: MoviesCategory, completionHandler: @escaping ((Result<MoviesResponse, Error>) -> Void)) {
-        guard let url = URL(string: category == .popular ? APIRouter(page: page).popularMoviesUrl : APIRouter(page: page).topRatedUrl) else { return }
+        guard let url = URL(string: category == .popular ? APIRouter(page: page).popularUrl : APIRouter(page: page).topRatedUrl) else { return }
+        URLSession.shared.request(url: url, expecting: MoviesResponse.self) { result in
+            switch result {
+            case .success(let data):
+                completionHandler(.success(data))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func searchMovies(query: String, page: Int, completionHandler: @escaping ((Result<MoviesResponse, Error>) -> Void)) {
+        guard let url = URL(string: APIRouter(page: page, query: query).searchUrl) else { return }
         URLSession.shared.request(url: url, expecting: MoviesResponse.self) { result in
             switch result {
             case .success(let data):

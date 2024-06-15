@@ -129,7 +129,7 @@ class MainViewController: UIViewController {
             segmentedControl.isEnabled = true
         case .errorMessage(let error):
             print(error)
-            //showAlert(title: "Error", message: "Has been ocurred fetching anime list.")
+            //TODO: - Show alert to error fetching data
         case .emptySearch(let emptySearch):
             if emptySearch {
                 viewModel.isFiltering = false
@@ -137,7 +137,7 @@ class MainViewController: UIViewController {
             }
         case .emptySearchResults(_):
             print("Alert")
-            // show alert
+            //TODO: - Show alert to empty search results
         }
     }
     
@@ -176,6 +176,7 @@ class MainViewController: UIViewController {
     
     @IBAction private func segmentedControlAction(_ sender: Any) {
         segmentedControl.isEnabled = false
+        searchTextField.text = ""
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -211,6 +212,7 @@ class MainViewController: UIViewController {
     @IBAction private func clearFiltersButtonAction(_ sender: Any) {
         viewModel.isFiltering = false
         clearFiltersButton.isHidden = true
+        searchTextField.text = ""
         pickerView.selectRow(0, inComponent: 0, animated: true)
         pickerView.selectRow(0, inComponent: 1, animated: true)
         pickerView.selectRow(0, inComponent: 2, animated: true)

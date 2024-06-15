@@ -58,8 +58,28 @@ class MainViewModel {
         }
     }
     
+    func searcMovies(query: String) {
+        movies = []
+        mutableOutputEvents.postValue(.isLoading(true))
+        manager.searchMovies(query: query, page: page) { [weak self] result in
+            self?.mutableOutputEvents.postValue(.isLoading(false))
+            switch result {
+            case .success(let movies):
+                movies.results?.forEach { (movie) in
+                    if self?.movies.contains(where: {$0.id != movie.id}) != nil {
+                        self?.movies.append(movie)
+                    }
+                }
+                self?.mutableOutputEvents.postValue(.didGetData)
+            case .failure(let error):
+                self?.mutableOutputEvents.postValue(.errorMessage(error.localizedDescription))
+            }
+        }
+    }
+    
     func textFieldDidChangeSelection(text: String?) {
         guard let text = text else { return }
+        searcMovies(query: text)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [self] _ in
             
             if text.isEmpty {
@@ -76,7 +96,7 @@ class MainViewModel {
             }
             
             if moviesSearch.count > 0 {
-                isFiltering = true
+                isFiltering = false
                 movies = []
                 movies = moviesSearch
                 moviesSearch = []
@@ -84,7 +104,7 @@ class MainViewModel {
             } else {
                 mutableOutputEvents.postValue(.emptySearchResults(true))
             }
-            
         }
     }
+ 
 }

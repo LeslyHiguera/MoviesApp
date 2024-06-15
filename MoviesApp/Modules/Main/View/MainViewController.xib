@@ -53,11 +53,12 @@
                     </constraints>
                     <color key="color" red="0.30196079609999998" green="0.039215687659999998" blue="0.019607843829999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </activityIndicatorView>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f2H-W8-yQg">
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search movie in the complete list of movies" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f2H-W8-yQg">
                     <rect key="frame" x="20" y="64" width="298" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="lwH-kN-4FI"/>
                     </constraints>
+                    <color key="textColor" red="0.30196079609999998" green="0.039215687659999998" blue="0.019607843829999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
