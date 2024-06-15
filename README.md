@@ -2,7 +2,7 @@
 
 Funcionalidades técnicas de la aplicación:
 
-Desarrollada en Swift versión 5.10, las pantallas están contruidas utilizando XIBs, el patron de arquitectura utilizado es MVVM con Factory, Manager, Router y Adapter, se implementa un comportamiento reactivo de los closures con la ayuda de una clase de tipo Observable, se extiende la funcionalidad URLSession para el llamado de los servicios.
+Desarrollada en Swift versión 5.10, las pantallas están contruidas utilizando XIBs, el patron de arquitectura utilizado es MVVM con Factory, Manager, Router y Adapter, se implementa un comportamiento reactivo de los closures con la ayuda de una clase de tipo Observable, se extiende la funcionalidad URLSession para el llamado de los servicios, se implementan pruebas unitarias utilizando un mock que devuelve un listado de películas y con este se testean los métodos del ViewModel.
 
 ## Arquitectura:
 
