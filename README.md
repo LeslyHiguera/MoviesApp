@@ -2,9 +2,9 @@
 
 Funcionalidades técnicas de la aplicación:
 
-Desarrollada en Swift versión 5.10, las pantallas están contruidas utilizando XIBs, el patron de arquitectura utilizado es MVVM con Factory, Manager, Router y Adapter, se implementa un comportamiento reactivo de los closures con la ayuda de una clase de tipo Observable, se extiende la funcionalidad URLSession para el llamado de los servicios,  
+Desarrollada en Swift versión 5.10, las pantallas están contruidas utilizando XIBs, el patron de arquitectura utilizado es MVVM con Factory, Manager, Router y Adapter, se implementa un comportamiento reactivo de los closures con la ayuda de una clase de tipo Observable, se extiende la funcionalidad URLSession para el llamado de los servicios.
 
-Arquitectura:
+## Arquitectura:
 
 Capas de la arquitectura:
 
@@ -16,4 +16,4 @@ Router: Para la navegación entre controladores
 Factory: Para la construcción de objetos complejos
 Adapter: Para los delegados y datasource del tableView
 
-Generalidades:
+## Generalidades:
