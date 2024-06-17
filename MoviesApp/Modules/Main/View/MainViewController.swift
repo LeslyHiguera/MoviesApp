@@ -2,7 +2,7 @@
 //  MainViewController.swift
 //  MoviesApp
 //
-//  Created by Admin on 12/06/24.
+//  Created by Lesly Higuera on 12/06/24.
 //
 
 import UIKit
@@ -31,13 +31,15 @@ class MainViewController: UIViewController {
     private var voteAverageSelectedRow = 0
     
     var viewModel: MainViewModel
+    var router: MainRouter
     
     lazy var adapter = MainAdapter(viewModel: viewModel)
     
     // MARK: - Initializers
     
-    init(viewModel: MainViewModel) {
+    init(viewModel: MainViewModel, router: MainRouter) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -110,7 +112,7 @@ class MainViewController: UIViewController {
             self?.validateEvents(event: event)
         }
         adapter.didSelectRowAt.observe { [unowned self] movie in
-            // TODO: Acción cuando se da tap a una celda
+            router.goToDescription(movie: movie)
         }
     }
     
@@ -129,7 +131,7 @@ class MainViewController: UIViewController {
             segmentedControl.isEnabled = true
         case .errorMessage(let error):
             print(error)
-            //TODO: - Show alert to error fetching data
+            showAlert(title: "Error", message: "Has been ocurred fetching movie list.")
         case .emptySearch(let emptySearch):
             if emptySearch {
                 viewModel.isFiltering = false
@@ -137,7 +139,7 @@ class MainViewController: UIViewController {
             }
         case .emptySearchResults(_):
             print("Alert")
-            //TODO: - Show alert to empty search results
+            showAlert(title: "Without results", message: "No results found for the search")
         }
     }
     

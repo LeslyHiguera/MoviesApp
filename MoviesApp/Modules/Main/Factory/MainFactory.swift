@@ -11,8 +11,10 @@ class MainFactory {
 
     static func configure() -> UIViewController {
         let manager = MainManager()
+        let router = MainRouter()
         let viewModel = MainViewModel(manager: manager)
-        let controller = MainViewController(viewModel: viewModel)
+        let controller = MainViewController(viewModel: viewModel, router: router)
+        router.view = controller
         return controller
     }
     
