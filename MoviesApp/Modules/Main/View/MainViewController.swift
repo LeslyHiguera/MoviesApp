@@ -134,10 +134,10 @@ class MainViewController: UIViewController {
         case .emptySearch(let emptySearch):
             viewModel.emptySearchBehaviour(isEmptySearch: emptySearch)
         case .emptySearchResults(_):
-            showAlert(title: "Without results", message: "No results found for the search, try again")
+            showAlert(title: "Information", message: "No results found for your search, try again")
         case .emptyFiltersResults:
             clearFiltersButton.isHidden = true
-            showAlert(title: "Warning", message: "We did not find results for your search, try again")
+            showAlert(title: "Information", message: "No results found for the selected filters, try again")
         }
     }
     
