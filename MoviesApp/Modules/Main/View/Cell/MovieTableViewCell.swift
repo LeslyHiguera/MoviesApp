@@ -45,7 +45,7 @@ class MovieTableViewCell: UITableViewCell {
         titleLabel.text = movie?.title
         releaseDateLabel.text = movie?.releaseDate
         languageLabel.text = movie?.originalLanguage
-        voteAverageLabel.text = String(format: "%.2f", movie?.voteAverage ?? 0.0)
+        voteAverageLabel.text = String(format: "%.2f", movie?.voteAverage ?? 0)
     }
     
 }

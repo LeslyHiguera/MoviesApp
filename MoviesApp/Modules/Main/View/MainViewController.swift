@@ -22,13 +22,13 @@ class MainViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let adultPickerOptions = ["No", "Yes"]
-    private let lenguagePickerOptions = ["en", "es", "fr", "it", "pt", "ko", "ja", "zh", "th", "hi"]
-    private let voteAveragePickerOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    private let adultOptions = ["No", "Yes"]
+    private let languageOptions = ["en", "es", "fr", "it", "pt", "ko", "ja", "zh", "th", "hi"]
+    private let voteOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     
     private var adultSelectedRow = 0
     private var lenguageSelectedRow = 0
-    private var voteAverageSelectedRow = 0
+    private var voteSelectedRow = 0
     
     var viewModel: MainViewModel
     var router: MainRouter
@@ -65,7 +65,7 @@ class MainViewController: UIViewController {
         setSegmentedControlAppearence()
         configureTableView()
         configurePickerView()
-        setClearFiltersButton()
+        setClearFiltersButtonBorders()
     }
     
     private func setupNavigationBar() {
@@ -96,7 +96,13 @@ class MainViewController: UIViewController {
         pickerView.dataSource = self
     }
     
-    private func setClearFiltersButton() {
+    private func resetPickerViewPositions() {
+        pickerView.selectRow(0, inComponent: 0, animated: true)
+        pickerView.selectRow(0, inComponent: 1, animated: true)
+        pickerView.selectRow(0, inComponent: 2, animated: true)
+    }
+    
+    private func setClearFiltersButtonBorders() {
         clearFiltersButton.layer.cornerRadius = 6
         clearFiltersButton.layer.borderWidth = 1
         clearFiltersButton.layer.borderColor = UIColor.redWineColor.cgColor
@@ -119,53 +125,25 @@ class MainViewController: UIViewController {
     private func validateEvents(event: MainViewModelOutput) {
         switch event {
         case .isLoading(let isLoading):
-            if isLoading {
-                loadingView.startAnimating()
-                loadingView.isHidden = false
-            } else {
-                loadingView.stopAnimating()
-                loadingView.isHidden = true
-            }
+            showLoadingView(isLoading: isLoading)
         case .didGetData:
             tableView.reloadData()
             segmentedControl.isEnabled = true
-        case .errorMessage(let error):
-            print(error)
-            showAlert(title: "Error", message: "Has been ocurred fetching movie list.")
+        case .errorMessage(_):
+            showAlert(title: "Error", message: "Has been ocurred fetching movie list")
         case .emptySearch(let emptySearch):
-            if emptySearch {
-                viewModel.isFiltering = false
-                clearAndReloadMovies()
-            }
+            viewModel.emptySearchBehaviour(isEmptySearch: emptySearch)
         case .emptySearchResults(_):
-            print("Alert")
-            showAlert(title: "Without results", message: "No results found for the search")
-        }
-    }
-    
-    private func filterMovies(adultSelectedRow: Int, lenguageSelectedRow: Int, voteAverageSelectedRow: Int) {
-        viewModel.isFiltering = true
-        let isForAdults = adultSelectedRow == 0 ? false : true
-        let lenguaje = lenguagePickerOptions[lenguageSelectedRow]
-        let voteAverage = Int(voteAveragePickerOptions[voteAverageSelectedRow])
-        
-        let filteredMovies = viewModel.movies.filter({ $0.adult == isForAdults && $0.originalLanguage == lenguaje && Int($0.voteAverage ?? 0.0) == voteAverage })
-        
-        if filteredMovies.count > 0 {
-            viewModel.movies = filteredMovies
-            tableView.reloadData()
-        } else {
-            viewModel.isFiltering = false
+            showAlert(title: "Without results", message: "No results found for the search, try again")
+        case .emptyFiltersResults:
             clearFiltersButton.isHidden = true
             showAlert(title: "Warning", message: "We did not find results for your search, try again")
-            clearAndReloadMovies()
         }
     }
     
-    private func clearAndReloadMovies() {
-        viewModel.movies = []
-        viewModel.page = 1
-        viewModel.getMovies()
+    private func showLoadingView(isLoading: Bool) {
+        isLoading ? loadingView.startAnimating() : loadingView.stopAnimating()
+        loadingView.isHidden = isLoading ? false : true
     }
     
     // MARK: - Actions
@@ -181,18 +159,7 @@ class MainViewController: UIViewController {
         clearFiltersButton.isHidden = true
         searchTextField.text = ""
         
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            title = "Popular"
-            viewModel.category = .popular
-            clearAndReloadMovies()
-        case 1:
-            title = "Top Rated"
-            viewModel.category = .topRated
-            clearAndReloadMovies()
-        default:
-            break
-        }
+        title = viewModel.segmentedControlActionWithTitle(selectedSegmentIndex: segmentedControl.selectedSegmentIndex)
     }
     
     @IBAction private func cancelButtonAction(_ sender: Any) {
@@ -205,18 +172,12 @@ class MainViewController: UIViewController {
         hidePickerComponents(isHidden: true)
         clearFiltersButton.isHidden = false
         
-        viewModel.isSearching = searchTextField.text != "" ? true : false
+        viewModel.searchStateBy(text: searchTextField.text ?? "")
         
-        if viewModel.isFiltering {
-            if !viewModel.isSearching {
-                clearAndReloadMovies()
-            } else {
-                viewModel.getMovies(isSearching: true, query: searchTextField.text ?? "")
-            }
-        }
+        viewModel.searchBehaviourWhenIsFiltering(searchText: searchTextField.text ?? "")
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + (viewModel.isFiltering ? 1.5 : 0), execute: {
-            self.filterMovies(adultSelectedRow: self.adultSelectedRow, lenguageSelectedRow: self.lenguageSelectedRow, voteAverageSelectedRow: self.voteAverageSelectedRow)
+        DispatchQueue.main.asyncAfter(deadline: .now() + (viewModel.isFiltering ? 1.5 : 0), execute: { [self] in
+            self.viewModel.filterMovies(languageOptions: self.languageOptions, voteOptions: voteOptions, adultSelectedRow: adultSelectedRow, lenguageSelectedRow: lenguageSelectedRow, voteSelectedRow: voteSelectedRow)
         })
     }
     
@@ -224,23 +185,22 @@ class MainViewController: UIViewController {
         viewModel.isFiltering = false
         clearFiltersButton.isHidden = true
         searchTextField.text = ""
-        pickerView.selectRow(0, inComponent: 0, animated: true)
-        pickerView.selectRow(0, inComponent: 1, animated: true)
-        pickerView.selectRow(0, inComponent: 2, animated: true)
-        clearAndReloadMovies()
+        resetPickerViewPositions()
+        viewModel.clearAndReloadMovies()
     }
     
 }
 
+// MARK: - UIPickerViewDelegate
 extension MainViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch component {
         case 0:
-            return adultPickerOptions[row]
+            return adultOptions[row]
         case 1:
-            return lenguagePickerOptions[row]
+            return languageOptions[row]
         case 2:
-            return voteAveragePickerOptions[row]
+            return voteOptions[row]
         default:
             return ""
         }
@@ -253,7 +213,7 @@ extension MainViewController: UIPickerViewDelegate {
         case 1:
             lenguageSelectedRow = row
         case 2:
-            voteAverageSelectedRow = row
+            voteSelectedRow = row
         default:
              break
         }
@@ -265,6 +225,7 @@ extension MainViewController: UIPickerViewDelegate {
     
 }
 
+// MARK: - UIPickerViewDataSource
 extension MainViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         3
@@ -273,11 +234,11 @@ extension MainViewController: UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
-            return adultPickerOptions.count
+            return adultOptions.count
         case 1:
-            return lenguagePickerOptions.count
+            return languageOptions.count
         case 2:
-            return voteAveragePickerOptions.count
+            return voteOptions.count
         default:
             return 0
         }
@@ -285,6 +246,7 @@ extension MainViewController: UIPickerViewDataSource {
     
 }
 
+// MARK: - UITextFieldDelegate
 extension MainViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         clearFiltersButton.isHidden = true

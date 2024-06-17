@@ -43,6 +43,14 @@
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6b4-2y-Hja">
+                        <rect key="frame" x="249.33333333333337" y="67.666666666666671" width="15" height="14.666666666666671"/>
+                        <color key="tintColor" systemColor="systemYellowColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="ATU-Sz-lfi"/>
+                            <constraint firstAttribute="height" constant="15" id="y1W-Cz-UZg"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tiV-bx-lMS">
                         <rect key="frame" x="269.33333333333331" y="65.666666666666671" width="39.666666666666686" height="19.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -58,9 +66,11 @@
                     <constraint firstItem="8a0-kL-03f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="dhS-IW-kwf"/>
                     <constraint firstItem="2yk-KG-mBZ" firstAttribute="leading" secondItem="8a0-kL-03f" secondAttribute="trailing" constant="15" id="gJT-M2-Ayr"/>
                     <constraint firstAttribute="trailing" secondItem="DYl-zN-VOk" secondAttribute="trailing" constant="5" id="gTP-rS-bJo"/>
+                    <constraint firstItem="6b4-2y-Hja" firstAttribute="trailing" secondItem="tiV-bx-lMS" secondAttribute="leading" constant="-5" id="gec-yX-I8k"/>
                     <constraint firstAttribute="trailing" secondItem="tiV-bx-lMS" secondAttribute="trailing" constant="10" id="htp-yQ-sua"/>
                     <constraint firstItem="sY2-mN-c6T" firstAttribute="top" secondItem="2yk-KG-mBZ" secondAttribute="bottom" constant="5" id="jhM-ab-8xT"/>
                     <constraint firstItem="DYl-zN-VOk" firstAttribute="top" secondItem="8a0-kL-03f" secondAttribute="top" id="p8u-Sk-hkO"/>
+                    <constraint firstItem="6b4-2y-Hja" firstAttribute="centerY" secondItem="tiV-bx-lMS" secondAttribute="centerY" id="prE-QD-g36"/>
                     <constraint firstItem="8a0-kL-03f" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="qZ9-az-A5M"/>
                     <constraint firstItem="tiV-bx-lMS" firstAttribute="bottom" secondItem="8a0-kL-03f" secondAttribute="bottom" id="ssg-FN-wki"/>
                 </constraints>
@@ -78,11 +88,15 @@
     </objects>
     <resources>
         <image name="movieclapper.fill" catalog="system" width="128" height="113"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemGrayColor">
             <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

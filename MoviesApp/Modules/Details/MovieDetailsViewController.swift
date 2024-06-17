@@ -11,9 +11,9 @@ class MovieDetailsViewController: UIViewController {
     
     // MARK: - Outlets
     
+    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var originalTitleLabel: UILabel!
     @IBOutlet private weak var movieImage: UIImageView!
-    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var voteLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
@@ -39,11 +39,12 @@ class MovieDetailsViewController: UIViewController {
     
     func setupView() {
         self.view?.downloadImage(imageService: imageService, url: movie?.fullImageUrl ?? "", imageView: movieImage)
-        originalTitleLabel.text = movie?.originalTitle
+        
         titleLabel.text = movie?.title
-        dateLabel.text = movie?.releaseDate
-        voteLabel.text = String(format: "%.2f", movie?.voteAverage ?? 0.0)
-        descriptionLabel.text = movie?.overview
+        originalTitleLabel.text = "Original title: \(movie?.originalTitle ?? "")"
+        dateLabel.text = "Release date: \(movie?.releaseDate ?? "")"
+        voteLabel.text = "Vote average: \(String(format: "%.2f", movie?.voteAverage ?? 0.0))"
+        descriptionLabel.text = "Overview: \(movie?.overview ?? "")"
     }
 
 }

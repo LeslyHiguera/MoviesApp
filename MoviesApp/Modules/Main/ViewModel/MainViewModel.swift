@@ -10,9 +10,10 @@ import Foundation
 enum MainViewModelOutput {
     case isLoading(Bool)
     case didGetData
-    case errorMessage(String)
     case emptySearch(Bool)
     case emptySearchResults(Bool)
+    case emptyFiltersResults
+    case errorMessage(String)
 }
 
 enum MoviesCategory {
@@ -98,6 +99,63 @@ class MainViewModel {
                 mutableOutputEvents.postValue(.didGetData)
             } else {
                 mutableOutputEvents.postValue(.emptySearchResults(true))
+            }
+        }
+    }
+    
+    func filterMovies(languageOptions: [String], voteOptions: [String], adultSelectedRow: Int, lenguageSelectedRow: Int, voteSelectedRow: Int) {
+        isFiltering = true
+        let isForAdults = adultSelectedRow == 0 ? false : true
+        let lenguaje = languageOptions[lenguageSelectedRow]
+        let voteAverage = Int(voteOptions[voteSelectedRow])
+        
+        let filteredMovies = movies.filter({ $0.adult == isForAdults && $0.originalLanguage == lenguaje && Int($0.voteAverage ?? 0.0) == voteAverage })
+        
+        if filteredMovies.count > 0 {
+            movies = filteredMovies
+            mutableOutputEvents.postValue(.didGetData)
+        } else {
+            isFiltering = false
+            clearAndReloadMovies()
+            mutableOutputEvents.postValue(.emptyFiltersResults)
+        }
+    }
+    
+    func clearAndReloadMovies() {
+        movies = []
+        page = 1
+        getMovies()
+    }
+    
+    func segmentedControlActionWithTitle(selectedSegmentIndex: Int) -> String {
+        if selectedSegmentIndex == 0 {
+            category = .popular
+            clearAndReloadMovies()
+            return "Popular"
+        } else {
+            category = .topRated
+            clearAndReloadMovies()
+            return "Top Rated"
+        }
+    }
+    
+    func emptySearchBehaviour(isEmptySearch: Bool) {
+        if isEmptySearch {
+            isFiltering = false
+            clearAndReloadMovies()
+        }
+    }
+    
+    func searchStateBy(text: String) {
+        isSearching = text != "" ? true : false
+    }
+    
+    func searchBehaviourWhenIsFiltering(searchText: String) {
+        if isFiltering {
+            if !isSearching {
+                clearAndReloadMovies()
+            } else {
+                getMovies(isSearching: true, query: searchText)
             }
         }
     }

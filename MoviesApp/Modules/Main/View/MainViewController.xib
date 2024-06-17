@@ -75,9 +75,8 @@
                         <action selector="filtersButtonAction:" destination="-1" eventType="touchUpInside" id="S2C-oS-Cib"/>
                     </connections>
                 </button>
-                <view hidden="YES" alpha="0.40000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ifj-Wi-EM1">
+                <view hidden="YES" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ifj-Wi-EM1">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="643"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GMu-uU-uKw">
@@ -183,6 +182,7 @@
             <constraints>
                 <constraint firstItem="QKp-FV-5Sk" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="2UX-CS-fZp"/>
                 <constraint firstItem="f2H-W8-yQg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="4kU-Hn-6Iv"/>
+                <constraint firstItem="Ifj-Wi-EM1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="7Lk-ns-bdM"/>
                 <constraint firstItem="GMu-uU-uKw" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="96L-0T-nG1"/>
                 <constraint firstItem="QKp-FV-5Sk" firstAttribute="top" secondItem="ZHm-uS-WLb" secondAttribute="bottom" id="Fv9-gO-JCQ"/>
                 <constraint firstItem="GFT-7g-nlq" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="IN1-la-shJ"/>
@@ -194,11 +194,14 @@
                 <constraint firstItem="GMu-uU-uKw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Upo-IN-S9R"/>
                 <constraint firstItem="ZHm-uS-WLb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="XAj-lS-seD"/>
                 <constraint firstItem="GFT-7g-nlq" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="YFs-5Z-TIS"/>
+                <constraint firstItem="GMu-uU-uKw" firstAttribute="top" secondItem="Ifj-Wi-EM1" secondAttribute="bottom" id="aOh-L6-OOh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7jM-k1-RW5" secondAttribute="trailing" constant="20" id="cQY-cN-KOp"/>
                 <constraint firstItem="GMu-uU-uKw" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="een-hg-C2I"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="QKp-FV-5Sk" secondAttribute="trailing" constant="10" id="hEy-1N-H5Z"/>
                 <constraint firstItem="ZHm-uS-WLb" firstAttribute="top" secondItem="f2H-W8-yQg" secondAttribute="bottom" constant="10" id="oid-gW-lzK"/>
+                <constraint firstItem="Ifj-Wi-EM1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="qvp-hw-eBP"/>
                 <constraint firstItem="7jM-k1-RW5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="r8L-SK-pMc"/>
+                <constraint firstItem="Ifj-Wi-EM1" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="vDp-GT-xOc"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GeJ-td-HY0" secondAttribute="trailing" constant="20" id="x1q-8G-6VP"/>
             </constraints>
             <point key="canvasLocation" x="139.69465648854961" y="19.718309859154932"/>
