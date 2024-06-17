@@ -10,20 +10,28 @@ import XCTest
 
 final class MainViewModelTests: XCTestCase {
     
-    let moviesResponse = [MovieResponse(id: 0, genreIds: [1], title: "title", originalTitle: "originalTitle", adult: false, originalLanguage: "originalLanguage", voteAverage: 5.0, overview: "overview", imageUrl: "imageUrl", releaseDate: "releaseDate")]
+    // MARK: - Properties
     
     var viewModel: MainViewModel!
     var mockManager: MockMainManager!
+    
+    var moviesResponse: [MovieResponse]!
+    
+    // MARK: - Override methods
 
     override func setUpWithError() throws {
+        moviesResponse = [MovieResponse(id: 0, genreIds: [1], title: "title", originalTitle: "originalTitle", adult: false, originalLanguage: "originalLanguage", voteAverage: 5.0, overview: "overview", imageUrl: "imageUrl", releaseDate: "releaseDate")]
         mockManager = MockMainManager()
         viewModel = MainViewModel(manager: mockManager)
     }
 
     override func tearDownWithError() throws {
+        moviesResponse = []
         viewModel = nil
         mockManager = nil
     }
+    
+    // MARK: - Test methods
 
     func testGetMoviesSuccess() {
         let expectation = self.expectation(description: "Movies fetched successfully")

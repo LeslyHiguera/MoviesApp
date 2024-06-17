@@ -2,7 +2,7 @@
 //  Observable.swift
 //  MoviesApp
 //
-//  Created by Lesly Higuera on 13/06/24.
+//  Created by J. R. on 13/06/24.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ public class Observable<T> {
     
     typealias Listener = (T) -> Void
     
-    // MARK: - Internal Propertiers
+    // MARK: - Propertiers
     
     var observe: Listener = { _ in }
         
@@ -26,9 +26,7 @@ public class Observable<T> {
         }
     }
     
-    // MARK: - Private Propertiers
-    
-    private let thread : DispatchQueue
+    private let thread: DispatchQueue
     private var observers: [Observer] = []
     
     // MARK: - Initializers
@@ -38,13 +36,11 @@ public class Observable<T> {
         self.property = value
     }
     
-    // MARK: - Internal Methods
+    // MARK: - Methods
     
     func observe(_ listener: @escaping Listener) {
         observe = listener
     }
-    
-    // MARK: - Fileprivaye Methods
     
     fileprivate func postValue(_ value: T?) {
         property = value
@@ -55,17 +51,15 @@ public class Observable<T> {
 // MARK: - Observable+Bind
 extension Observable {
     
-    // MARK: - Public Properties
+    // MARK: - Properties
     
     public typealias Observer = (_ observable: Observable<T>, T) -> Void
     
-    // MARK: - Public Methods
+    // MARK: -  Methods
     
     public func bind(observer: @escaping Observer) {
         observers.append(observer)
     }
-    
-    // MARK: - Private Methods
     
     private func notifyObservers(_ value: T) {
         self.observers.forEach { [unowned self](observer) in
@@ -77,7 +71,7 @@ extension Observable {
 
 public class MutableObservable<T>: Observable<T> {
     
-    // MARK: - Internal Override Methods
+    // MARK: - Override Methods
     
     override func postValue(_ value: T?) {
         super.postValue(value)

@@ -9,6 +9,8 @@ import Foundation
 
 class MainManager {
     
+    // MARK: - Fetch methods
+    
     func getMovies(url: String, page: Int, isSearching: Bool, query: String, completionHandler: @escaping ((Result<MoviesResponse, Error>) -> Void)) {
         guard let url = URL(string: url) else { return }
         URLSession.shared.request(url: url, expecting: MoviesResponse.self) { result in

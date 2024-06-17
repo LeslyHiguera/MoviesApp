@@ -9,7 +9,12 @@ import Foundation
 @testable import MoviesApp
 
 class MockMainManager: MainManager {
+    
+    // MARK: - Properties
+    
     var shouldReturnError = false
+    
+    // MARK: - Override methods
     
     override func getMovies(url: String, page: Int, isSearching: Bool, query: String, completionHandler completion: @escaping ((Result<MoviesResponse, Error>) -> Void)) {
         if shouldReturnError {

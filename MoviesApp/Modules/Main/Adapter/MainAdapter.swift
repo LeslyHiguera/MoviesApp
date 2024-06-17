@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 
 class MainAdapter: NSObject {
+    
+    // MARK: - Properties
+    
     var viewModel: MainViewModel
     
     // MARK: - Observable Properties
@@ -19,11 +22,14 @@ class MainAdapter: NSObject {
     
     private var mutableDidSelectRowAt = MutableObservable<MovieResponse>()
     
+    // MARK: - Initializers
+    
     internal init(viewModel: MainViewModel) {
         self.viewModel = viewModel
     }
 }
 
+// MARK: - UITableViewDelegate
 extension MainAdapter: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -47,7 +53,9 @@ extension MainAdapter: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension MainAdapter: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.movies.count
     }

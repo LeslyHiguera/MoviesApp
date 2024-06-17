@@ -9,16 +9,16 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController {
     
-    //MARK: - IBOutlets
+    // MARK: - Outlets
     
-    @IBOutlet weak var originalTitleLabel: UILabel!
-    @IBOutlet weak var movieImage: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var voteLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var originalTitleLabel: UILabel!
+    @IBOutlet private weak var movieImage: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var voteLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
-    //MARK: - Properties
+    // MARK: - Properties
     
     var movie: MovieResponse? {
         didSet {
@@ -27,13 +27,16 @@ class MovieDetailsViewController: UIViewController {
     }
     
     private var imageService = ImageService()
+    
+    // MARK: - Controller lifecycle methods
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         movieImage.layer.cornerRadius = 10
     }
     
-
+    // MARK: - Methods
+    
     func setupView() {
         self.view?.downloadImage(imageService: imageService, url: movie?.fullImageUrl ?? "", imageView: movieImage)
         originalTitleLabel.text = movie?.originalTitle
@@ -41,8 +44,6 @@ class MovieDetailsViewController: UIViewController {
         dateLabel.text = movie?.releaseDate
         voteLabel.text = String(format: "%.2f", movie?.voteAverage ?? 0.0)
         descriptionLabel.text = movie?.overview
-        
     }
-    
 
 }

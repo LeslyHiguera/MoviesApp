@@ -2,16 +2,18 @@
 //  ImageService.swift
 //  MoviesApp
 //
-//  Created by Lesly Higuera on 14/06/24.
+//  Created by _ on 14/06/24.
 //
 
 import UIKit
 
 final class ImageService {
     
+    // MARK: - Properties
+    
     private var images = NSCache<NSString, NSData>()
 
-    // MARK: - Public API
+    // MARK: - Methods
     
     func image(for url: URL, completion: @escaping (UIImage?) -> Void) {
         if let imageData = images.object(forKey: url.absoluteString as NSString) {

@@ -112,7 +112,7 @@ class MainViewController: UIViewController {
             self?.validateEvents(event: event)
         }
         adapter.didSelectRowAt.observe { [unowned self] movie in
-            router.goToDescription(movie: movie)
+            router.goToMovieDetails(movie: movie)
         }
     }
     

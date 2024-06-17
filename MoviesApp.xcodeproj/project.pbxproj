@@ -23,7 +23,7 @@
 		840986552C1D1965008B133C /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840986542C1D1965008B133C /* ImageService.swift */; };
 		840986572C1DE189008B133C /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840986562C1DE189008B133C /* UIColorExtensions.swift */; };
 		8409865B2C1DE4F6008B133C /* MockMainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409865A2C1DE4F6008B133C /* MockMainManager.swift */; };
-		8409865D2C1E1C1E008B133C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409865C2C1E1C1E008B133C /* APIManager.swift */; };
+		8409865D2C1E1C1E008B133C /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409865C2C1E1C1E008B133C /* APIRouter.swift */; };
 		840986602C1E1C5A008B133C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409865F2C1E1C5A008B133C /* Constants.swift */; };
 		840986632C2012B8008B133C /* MainRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840986622C2012B8008B133C /* MainRouter.swift */; };
 		84B522CF2C1A6F8E00372C1E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B522CE2C1A6F8E00372C1E /* AppDelegate.swift */; };
@@ -63,7 +63,7 @@
 		840986542C1D1965008B133C /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		840986562C1DE189008B133C /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		8409865A2C1DE4F6008B133C /* MockMainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMainManager.swift; sourceTree = "<group>"; };
-		8409865C2C1E1C1E008B133C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		8409865C2C1E1C1E008B133C /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		8409865F2C1E1C5A008B133C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		840986622C2012B8008B133C /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
 		84B522CB2C1A6F8E00372C1E /* MoviesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,7 +119,7 @@
 			children = (
 				8409863B2C1ABEF7008B133C /* Model */,
 				840986392C1ABDEC008B133C /* MainManager.swift */,
-				8409865C2C1E1C1E008B133C /* APIManager.swift */,
+				8409865C2C1E1C1E008B133C /* APIRouter.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -156,6 +156,14 @@
 				840986622C2012B8008B133C /* MainRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		840986642C208C71008B133C /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				8409865F2C1E1C5A008B133C /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		84B522C22C1A6F8E00372C1E = {
@@ -217,9 +225,9 @@
 		84B523002C1A7AAC00372C1E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				840986642C208C71008B133C /* Constants */,
 				84B523082C1A7E5B00372C1E /* Extensions */,
 				84B523072C1A7E4D00372C1E /* Helpers */,
-				8409865F2C1E1C5A008B133C /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -426,7 +434,7 @@
 				840986512C1CF264008B133C /* UIViewControllerExtensions.swift in Sources */,
 				84B522CF2C1A6F8E00372C1E /* AppDelegate.swift in Sources */,
 				84B522D12C1A6F8E00372C1E /* SceneDelegate.swift in Sources */,
-				8409865D2C1E1C1E008B133C /* APIManager.swift in Sources */,
+				8409865D2C1E1C1E008B133C /* APIRouter.swift in Sources */,
 				84B5230F2C1A8E6900372C1E /* MainViewController.swift in Sources */,
 				8409863F2C1ABF61008B133C /* URLSessionExtensions.swift in Sources */,
 				840986412C1ABFDE008B133C /* MovieResponse.swift in Sources */,

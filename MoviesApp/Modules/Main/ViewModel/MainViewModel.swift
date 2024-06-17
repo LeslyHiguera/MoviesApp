@@ -22,6 +22,8 @@ enum MoviesCategory {
 
 class MainViewModel {
     
+    // MARK: - Properties
+    
     var page = 1
     var category: MoviesCategory = .popular
     var isFiltering = false
@@ -31,15 +33,21 @@ class MainViewModel {
     
     private var manager: MainManager
     
+    // MARK: - Observable properties
+    
     var outputEvents: Observable<MainViewModelOutput> {
         mutableOutputEvents
     }
     
     private let mutableOutputEvents = MutableObservable<MainViewModelOutput>()
     
+    // MARK: - Initializers
+    
     init(manager: MainManager) {
         self.manager = manager
     }
+    
+    // MARK: - Methods
     
     func getMovies(isSearching: Bool = false, query: String = "") {
         if isSearching {

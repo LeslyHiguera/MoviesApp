@@ -8,6 +8,8 @@
 import UIKit
 
 class MainFactory {
+    
+    // MARK: - Configure methods
 
     static func configure() -> UIViewController {
         let manager = MainManager()

@@ -15,7 +15,7 @@ class MainRouter {
     
     // MARK: - Methods
     
-    func goToDescription(movie: MovieResponse) {
+    func goToMovieDetails(movie: MovieResponse) {
         let vc = MovieDetailsViewController()
         vc.movie = movie
         vc.modalTransitionStyle = .flipHorizontal

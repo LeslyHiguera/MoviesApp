@@ -9,11 +9,15 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
     
+    // MARK: - Outlets
+    
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var releaseDateLabel: UILabel!
     @IBOutlet private weak var languageLabel: UILabel!
     @IBOutlet private weak var voteAverageLabel: UILabel!
+    
+    // MARK: - Properties
     
     var movie: MovieResponse? {
         didSet {
@@ -22,6 +26,8 @@ class MovieTableViewCell: UITableViewCell {
     }
     
     private var imageService = ImageService()
+    
+    // MARK: - Initial methods
 
     override func awakeFromNib() {
         super.awakeFromNib()
